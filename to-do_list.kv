@@ -1,0 +1,53 @@
+BoxLayout:
+    orientation: 'vertical'
+    padding: 20
+    spacing: 10
+
+    # Input area for new tasks
+    BoxLayout:
+        orientation: 'horizontal'
+        spacing: 10
+        size_hint_y: None
+        height: '40dp'
+
+        TextInput:
+            id: task_input
+            hint_text: 'Enter new task'
+            multiline: False
+
+        Button:
+            text: 'Add Task'
+            on_press: app.add_task(task_input.text) # insert_new_task ?
+
+    # List of tasks
+    RecycleView:
+        id: task_list
+        viewclass: 'TaskItem' # Custom widget to display each task
+        RecycleBoxLayout:
+            default_size: None, dp(48)
+            default_size_hint: 1, None
+            size_hint_y: None
+            height: self.minimum_height
+            orientation: 'vertical'
+
+<TaskItem@BoxLayout>:
+    id: task_item
+    orientation: 'horizontal'
+    spacing: 10
+    size_hint_y: None
+    height: '40dp'
+
+    Label:
+        id: task_text
+        text: root.task
+        size_hint_x: 0.7
+    
+    Button:
+        text: 'Toggle'
+        size_hint_x: 0.15
+        on_press: app.toggle_status(root.task_id)
+
+    Button:
+        text: 'Delete'
+        size_hint_x: 0.15
+        on_press: app.delete_task(root.task_id)
